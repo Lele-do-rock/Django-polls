@@ -1,3 +1,4 @@
+from django.views.generic.edit import CreateView, UpdateView
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -34,3 +35,9 @@ from django.urls import reverse_lazy
 class QuestionCreateView(CreateView):
     model = Question
     success_url = reverse_lazy ('index')
+
+class QuestionUpdateView(UpdateView):
+    model = Question
+    template_name = 'polls/question_form.html'
+    fields = ('question_text', 'pub_date', )
+    success_url = reverse_lazy('polls_list')
