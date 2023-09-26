@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
@@ -61,3 +63,11 @@ class QuestionListView(ListView):
 
 class SobreTemplateView(TemplateView):
     template_name = 'polls/sobre.html'
+
+
+@login_required # controle de acesso usando o decorador de função
+def sobre(request):
+    return HttpResponse('Este é um app de enquete!')
+
+class QuestionDeleteView(LoginRequiredMixin, DeleteView):
+    model = Question
