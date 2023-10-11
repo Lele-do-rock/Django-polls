@@ -1,5 +1,5 @@
 from django.views.generic.edit import CreateView, UpdateView
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -41,6 +41,43 @@ class QuestionUpdateView(UpdateView):
     template_name = 'polls/question_form.html'
     fields = ('question_text', 'pub_date', )
     success_url = reverse_lazy('polls_list')
+
+    def get_context_data(self, **kwargs):
+        context = super(QuestionupdateView, self).get_context_data(**kwargs)
+        context['form_title'] = 'Editando pegunta'
+
+        question_id = self.kwargs.get('pk')
+        Choices = Choice.objects.filter(question_pk=question_id)
+        context['question_choices'] = Choices
+
+        return context
+
+class ChoiceCreateView(CreateView):
+    model = Choice
+    template_name = 'polls/choice_forn.html'
+    fields = ('choice_text',)
+    succes_message = 'Alternativa registrada com sucesso'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.question = get_object_or_404(Question, pk=self.kwargs.get('pk'))
+        return super(ChoiceCreateView, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        question = get_object_or_404(Question, pk=self.kwargs.get('pk'))
+
+        context = super(ChoiceCreateView, self).get_context_data(**kwargs)
+        context['form_title'] = f'Alternativa para: {question.question_text}'
+
+        return context
+
+    def form_valid(self, form):
+        form.instance.question = self.question
+        messages.success(self.request, self.succes_message)
+        return super(ChoiceCreateView, self).form_valid(form)
+
+    def get_success_url(self, *args, **kwargs):
+        Question_id = self.kwargs.get('pk')
+        return reverse_lazy('poll_edit', kwargs={'pk': Question_id})
 
 class QuestionDetailView(DetailView):
     model = Question
