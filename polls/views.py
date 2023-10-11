@@ -5,11 +5,10 @@ from django.views.generic import DetailView, ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-# Create your views here.
-
 from polls.models import Question, Choice
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -32,9 +31,6 @@ def ultimas_perguntas(request):
 
 def vote (request, question_id):
     return HttpResponse(f"Você vai na pergunta")
-
-from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
 
 class QuestionCreateView(CreateView):
     model = Question
