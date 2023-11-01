@@ -9,6 +9,7 @@ from polls.models import Question, Choice
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 # Create your views here.
 
@@ -36,7 +37,7 @@ class QuestionCreateView(CreateView):
     model = Question
     success_url = reverse_lazy ('index')
 
-class QuestionUpdateView(UpdateView):
+class QuestionupdateView(UpdateView):
     model = Question
     template_name = 'polls/question_form.html'
     fields = ('question_text', 'pub_date', )
@@ -72,7 +73,7 @@ class ChoiceCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.question = self.question
-        messages.success(self.request, self.succes_message)
+        messages.success(self.request, self.success_messages)
         return super(ChoiceCreateView, self).form_valid(form)
 
     def get_success_url(self, *args, **kwargs):
@@ -87,7 +88,9 @@ class QuestionDetailView(DetailView):
 class QuestionDeleteView(DeleteView):
     model = Question
     template_name = 'polls/question_confirm_delete_form.html'
-    success_url = reverse_lazy('polls_list')
+    success_url = reverse_lazy('polls_all')
+    success_message = 'Pergunta excluída com sucesso.'
+
 
 class QuestionListView(ListView):
     model = Question
@@ -104,3 +107,7 @@ def sobre(request):
 
 class QuestionDeleteView(LoginRequiredMixin, DeleteView):
     model = Question
+
+def form_valid(self, request, *args, **kwargs):
+    messages.success(self.request, self.success_message)
+    return super(QuestionDeleteView, self).form_valid(request, *args, **kwargs)
