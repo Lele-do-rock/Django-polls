@@ -37,14 +37,14 @@ class QuestionCreateView(CreateView):
     model = Question
     success_url = reverse_lazy ('index')
 
-class QuestionupdateView(UpdateView):
+class QuestionUpdateView(UpdateView):
     model = Question
     template_name = 'polls/question_form.html'
     fields = ('question_text', 'pub_date', )
     success_url = reverse_lazy('polls_list')
 
     def get_context_data(self, **kwargs):
-        context = super(QuestionupdateView, self).get_context_data(**kwargs)
+        context = super(QuestionUpdateView, self).get_context_data(**kwargs)
         context['form_title'] = 'Editando pegunta'
 
         question_id = self.kwargs.get('pk')

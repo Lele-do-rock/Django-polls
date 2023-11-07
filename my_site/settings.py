@@ -142,10 +142,3 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 LOGIN_REDIRECT_URL = '/admin'
 LOUGOUT_REDIRECT_URL = '/admin'
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
-# localizar a chave de configuração e modificá-la
-INSTALLED_APPS = [
-    'django.contrib.staticfiles',
-    'polls',
-    'accounts',
-]
