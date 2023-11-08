@@ -16,12 +16,14 @@ Django Framework
 <!-- CSS do Projeto-->
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
 {% endblock %}
+
 {% block header %}
 <main role="main">
     {% if not user.is_authenticated %}
         <a class="p-2 text-dark" href="{% url 'signup' %}">Cadastrar</a>
         <a class="p-2 text-dark" href="{% url 'login' %}">Acessar</a>
     {% else %}
+        <a class="p-2 text-dark" href="{% url 'account_edit' pk=user.pk %}">Minha conta</a>
         <a class="p-2 text-dark" href="{% url 'logout' %}">Sair</a>
     {% endif %}
 
@@ -34,13 +36,17 @@ bg-white border-bottom shadow-sm">
     </div>
 </main>
 {% endblock %}
+
 {% block main %}
 <div class="container">
+
     {% block content %}
     <p>Conteúdo padrão...</p>
     {% endblock content %}
+    
 </div>
 {% endblock %}
+
 {% block footer %}
 <footer class="footer">
     <div class="container">
@@ -48,6 +54,7 @@ bg-white border-bottom shadow-sm">
     </div>
 </footer>
 {% endblock %}
+
 {% block javascript %}
 <!-- Bootstrap JavaScript -->
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>

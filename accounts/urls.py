@@ -7,3 +7,10 @@ urlpatterns = [
         name="signup"
     ),
 ]
+
+urlpatterns = [
+    path('account/<int:pk>/edit',
+        views.AccountUpdateView.as_view(),
+        name="account_edit"
+    ),
+]
